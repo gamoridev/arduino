@@ -13,8 +13,9 @@ NIL_THREAD(Thread1, arg) {
     // Espera sinal da thread 2.
     nilSemWait(&sem);
 
-    digitalWrite(led, LOW);
+    digitalWrite(led, HIGH);
     digitalWrite(relay, LOW);
+    nilThdSleepMilliseconds(2000);
   }
 }
 
@@ -33,14 +34,14 @@ NIL_THREAD(Thread2, arg) {
   
     valorSinal = analogRead(sinal);
     liga = verificaValorUmidade(valorSinal);
-    if (!liga) {
-      digitalWrite(led, HIGH);
+    if (liga) {
+      digitalWrite(led, LOW);
       digitalWrite(relay, HIGH);
     } else {
       nilSemSignal(&sem);
     }
     //printaResultados(valorSinal, porcentagem);
-    nilThdSleepMilliseconds(200);
+    nilThdSleepMilliseconds(1000);
   }
 }
 
@@ -61,14 +62,18 @@ void loop(){
 
 boolean verificaValorUmidade(int valor) {
   // Converte o valor do sinal do sensor de umidade para porcentagem (0% - 100%)
-  int porcentagem = map(valor, 1023, 465, 0, 100);
+  int porcentagem = map(valor, 1023, 0, 0, 100);
   if (porcentagem >= 50) {
+    Serial.print("\nValor analógico: ");
+    Serial.print(valor);
     Serial.println("\nStatus: Solo úmido");
     Serial.print(porcentagem);
     Serial.print("%");
     return true;
   }
   if (porcentagem >= 0 && porcentagem < 50){
+    Serial.print("\nValor analógico: ");
+    Serial.print(valor);
     Serial.println("\nStatus: Solo seco");
     Serial.print(porcentagem);
     Serial.print("%");
