@@ -15,7 +15,8 @@ NIL_THREAD(Thread1, arg) {
 
     digitalWrite(led, HIGH);
     digitalWrite(relay, LOW);
-    nilThdSleepMilliseconds(2000);
+    Serial.println("RODOU");
+    nilThdSleepMilliseconds(200);
   }
 }
 
@@ -31,7 +32,8 @@ NIL_THREAD(Thread2, arg) {
     int valorSinal;
     int umidade;
     boolean liga;
-  
+
+    Serial.print("NAO RODOU");
     valorSinal = analogRead(sinal);
     liga = verificaValorUmidade(valorSinal);
     if (liga) {
