@@ -15,7 +15,7 @@ NIL_THREAD(Thread1, arg) {
 
     digitalWrite(led, HIGH);
     digitalWrite(relay, LOW);
-    nilThdSleepMilliseconds(200);
+    nilThdSleepMilliseconds(500);
   }
 }
 
